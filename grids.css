@@ -1,0 +1,47 @@
+    /* Класс для отобажения сетки поверх основного макета */
+    /* Переменные: */
+    /* --grid-color   - задает цвет сетки */
+    /* --grid-columns - количество колонок */
+    /* --grid-gap     - отступ между колонками */
+    /* --grid-sides   - отступ по краям сетки */
+    
+    .grid::before {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        content: "";
+        pointer-events: none;
+
+        --grid-color: rgb(255 0 0 / 0.2);
+        --grid-columns: 4;
+        --grid-gap: 16px;
+        --grid-sides: 0px;
+
+        --column-width: calc(((100vw - var(--grid-sides) * 2) - (var(--grid-gap) * (var(--grid-columns) - 1))) / var(--grid-columns));
+        margin: 0 calc(var(--grid-sides));
+
+        background-image: repeating-linear-gradient(
+            to right,
+            var(--grid-color) 0,
+            var(--grid-color) calc(var(--column-width)),
+            transparent calc(var(--column-width)),
+            transparent calc(var(--column-width) + (var(--grid-gap)))
+        );
+    }
+    /* Для изменения сетки на breakpoints неоходимо изменить только значения переменных --grid-* */
+    
+    @media (min-width: 736px) {
+        .grid::before {
+            --grid-sides: 24px;
+            --grid-columns: 8;
+        }
+    }
+    
+    @media (min-width: 1008px) {
+        .grid::before {
+            --grid-sides: 32px;
+            --grid-columns: 12;
+        }
+    }
